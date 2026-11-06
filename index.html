@@ -4,8 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EfeMedya // Senior Web Developer & Designer</title>
+    
+    <!-- Güvenlik Başlıkları (Security Headers & CSP) -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: data: 'unsafe-inline';">
+
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
         :root {
             --bg-color: #090d16;
@@ -405,7 +413,7 @@
                 <li><a href="#services">Uzmanlıklar</a></li>
                 <li><a href="#contact">İletişim</a></li>
             </ul>
-            <a href="https://wa.me/905414017071" target="_blank" class="nav-cta">
+            <a href="https://wa.me/905414017071" target="_blank" rel="noopener noreferrer" class="nav-cta">
                 <i class="fa-brands fa-whatsapp"></i> WhatsApp'tan Yaz
             </a>
         </div>
@@ -422,10 +430,10 @@
             <p>Fikirlerinizi dinamik arayüzler, güçlü yazılım mimarileri ve güvenli altyapılarla buluşturuyorum.</p>
             
             <div class="hero-btns">
-                <a href="https://wa.me/905414017071" target="_blank" class="btn-whatsapp">
+                <a href="https://wa.me/905414017071" target="_blank" rel="noopener noreferrer" class="btn-whatsapp">
                     <i class="fa-brands fa-whatsapp"></i> WhatsApp Ulaş
                 </a>
-                <a href="https://instagram.com/efefsr" target="_blank" class="btn-instagram">
+                <a href="https://instagram.com/efefsr" target="_blank" rel="noopener noreferrer" class="btn-instagram">
                     <i class="fa-brands fa-instagram"></i> Instagram (@efefsr)
                 </a>
             </div>
@@ -509,13 +517,13 @@
                 <p class="section-desc">Detayları konuşmak, fiyat teklifi almak veya hemen başlamak için benimle doğrudan iletişime geçebilirsiniz.</p>
                 
                 <div class="contact-cards">
-                    <a href="https://wa.me/905414017071" target="_blank" class="contact-card wa">
+                    <a href="https://wa.me/905414017071" target="_blank" rel="noopener noreferrer" class="contact-card wa">
                         <i class="fa-brands fa-whatsapp contact-icon"></i>
                         <h4>WhatsApp İletişim</h4>
                         <p>+90 541 401 70 71</p>
                     </a>
                     
-                    <a href="https://instagram.com/efefsr" target="_blank" class="contact-card ig">
+                    <a href="https://instagram.com/efefsr" target="_blank" rel="noopener noreferrer" class="contact-card ig">
                         <i class="fa-brands fa-instagram contact-icon"></i>
                         <h4>Instagram Takip & Mesaj</h4>
                         <p>@efefsr</p>
