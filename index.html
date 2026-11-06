@@ -3,24 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Efe Afşar // Full-Stack Web Tasarım & Geliştirme</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Efe Afşar // Senior Web Developer & UI/UX Designer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
+            --bg-color: #0b0f19;
+            --card-bg: #151d2a;
+            --card-hover: #1e293b;
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
             --accent: #38bdf8;
-            --accent-hover: #0ea5e9;
-            --border: #334155;
-            --tag-bg: rgba(56, 189, 248, 0.1);
+            --accent-glow: rgba(56, 189, 248, 0.15);
+            --border: #1e293b;
+            --border-light: #334155;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            scroll-behavior: smooth;
         }
 
         body {
@@ -28,168 +30,400 @@
             color: var(--text-main);
             font-family: 'Plus Jakarta Sans', sans-serif;
             line-height: 1.6;
-            padding: 2rem 1rem;
+            overflow-x: hidden;
         }
 
-        .container {
-            max-width: 950px;
-            margin: 0 auto;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 3rem;
-            padding-bottom: 2rem;
+        /* Navigasyon / Menü Barı */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(11, 15, 25, 0.85);
+            backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--text-main);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .nav-cta {
+            background-color: var(--accent);
+            color: #0b0f19;
+            padding: 0.5rem 1.25rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: opacity 0.2s;
+        }
+
+        .nav-cta:hover {
+            opacity: 0.9;
+        }
+
+        /* Ana Alan & Hero Section */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .hero {
+            padding: 10rem 0 5rem 0;
+            text-align: center;
         }
 
         .badge {
-            background-color: var(--tag-bg);
+            background-color: var(--accent-glow);
             color: var(--accent);
-            padding: 0.35rem 0.8rem;
+            padding: 0.4rem 1rem;
             border-radius: 50px;
             font-size: 0.85rem;
             font-weight: 600;
             display: inline-block;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(56, 189, 248, 0.3);
         }
 
-        h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            letter-spacing: -0.02em;
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.03em;
+            background: linear-gradient(180deg, #ffffff 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        p.subtitle {
+        .hero p {
             color: var(--text-muted);
-            font-size: 1.1rem;
+            font-size: 1.2rem;
+            max-width: 650px;
+            margin: 0 auto 2.5rem auto;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background-color: var(--accent);
+            color: #0b0f19;
+            padding: 0.85rem 2rem;
+            border-radius: 10px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(56, 189, 248, 0.25);
+        }
+
+        .btn-secondary {
+            background-color: var(--card-bg);
+            color: var(--text-main);
+            padding: 0.85rem 2rem;
+            border-radius: 10px;
+            font-weight: 600;
+            text-decoration: none;
+            border: 1px solid var(--border-light);
+            transition: background 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--card-hover);
+        }
+
+        /* İstatistik Bölümü */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 4rem 0;
+            padding: 2rem;
+            background: var(--card-bg);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .stat-item h3 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--accent);
+        }
+
+        .stat-item p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Genel Bölüm Düzeni */
+        section {
+            padding: 5rem 0;
+            border-top: 1px solid var(--border);
+        }
+
+        .section-header {
+            margin-bottom: 3rem;
         }
 
         .section-title {
-            font-size: 1.4rem;
-            margin-bottom: 1.5rem;
-            font-weight: 600;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
         }
 
+        .section-desc {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        /* Grid & Kartlar */
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 3rem;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
         }
 
         .card {
             background-color: var(--card-bg);
             border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 1.5rem;
-            transition: transform 0.2s ease, border-color 0.2s ease;
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s ease;
         }
 
         .card:hover {
-            transform: translateY(-4px);
+            transform: translateY(-5px);
             border-color: var(--accent);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--accent-glow);
+            color: var(--accent);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
         }
 
         .card h3 {
-            font-size: 1.15rem;
-            margin-bottom: 0.5rem;
-            color: var(--text-main);
+            font-size: 1.3rem;
+            margin-bottom: 0.75rem;
         }
 
         .card p {
             color: var(--text-muted);
             font-size: 0.95rem;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
         }
 
-        .skills-tags {
+        .tags {
             display: flex;
             flex-wrap: wrap;
             gap: 0.5rem;
         }
 
         .tag {
-            background-color: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border);
-            color: var(--accent);
-            font-size: 0.78rem;
-            font-weight: 600;
-            padding: 0.2rem 0.6rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-light);
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            padding: 0.25rem 0.65rem;
             border-radius: 6px;
         }
 
-        .cta-section {
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+        /* Çalışma Süreci Bölümü */
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .process-card {
+            background: var(--card-bg);
             border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 2.5rem;
+            padding: 1.5rem;
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .process-num {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--accent-glow);
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+        }
+
+        /* İletişim & CTA */
+        .cta-box {
+            background: linear-gradient(135deg, #151d2a 0%, #0b0f19 100%);
+            border: 1px solid var(--border-light);
+            border-radius: 24px;
+            padding: 4rem 2rem;
             text-align: center;
+            margin-bottom: 4rem;
         }
 
-        .cta-section p {
+        .cta-box h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-box p {
             color: var(--text-muted);
-            margin-bottom: 1.5rem;
+            max-width: 600px;
+            margin: 0 auto 2rem auto;
+            font-size: 1.1rem;
         }
 
-        .btn {
-            background-color: var(--accent);
-            color: #0f172a;
-            padding: 0.75rem 1.75rem;
-            border-radius: 8px;
-            font-weight: 600;
-            text-decoration: none;
-            display: inline-block;
-            transition: background-color 0.2s;
-        }
-
-        .btn:hover {
-            background-color: var(--accent-hover);
-        }
-
+        /* Footer */
         footer {
-            text-align: center;
-            margin-top: 4rem;
-            color: var(--text-muted);
-            font-size: 0.85rem;
+            padding: 3rem 0;
             border-top: 1px solid var(--border);
-            padding-top: 1.5rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .nav-links { display: none; }
+            .hero-btns { flex-direction: column; }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <header>
-            <span class="badge">Full-Stack Geliştirici & Tasarımcı</span>
-            <h1>Efe Afşar</h1>
-            <p class="subtitle">Modern web teknolojileri, yazılım dilleri ve dijital çözümler üretiyorum.</p>
-        </header>
+    <!-- Üst Navigasyon / Menü Barı -->
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="logo">EFE AFŞAR<span>.</span></a>
+            <ul class="nav-links">
+                <li><a href="#about">Hakkımda</a></li>
+                <li><a href="#services">Uzmanlıklar</a></li>
+                <li><a href="#process">Süreç</a></li>
+                <li><a href="#contact">İletişim</a></li>
+            </ul>
+            <a href="#contact" class="nav-cta">Teklif Al</a>
+        </div>
+    </nav>
 
-        <section>
-            <h2 class="section-title">Uzmanlık & Yetenekler</h2>
+    <div class="container">
+        
+        <!-- Hero Bölümü -->
+        <section class="hero" id="about">
+            <span class="badge">Full-Stack Developer & UI/UX Specialist</span>
+            <h1>Yüksek Performanslı & Modern Web Sistemleri</h1>
+            <p>Fikirlerinizi uçtan uca estetik arayüzler, hızlı mimariler ve güvenli altyapılarla dijital dünyaya taşıyorum.</p>
+            <div class="hero-btns">
+                <a href="#contact" class="btn-primary">Projeyi Başlatın</a>
+                <a href="#services" class="btn-secondary">Uzmanlıklarımı İnceleyin</a>
+            </div>
+        </section>
+
+        <!-- İstatistik Bölümü -->
+        <div class="stats">
+            <div class="stat-item">
+                <h3>100%</h3>
+                <p>Performans Skoru</p>
+            </div>
+            <div class="stat-item">
+                <h3>10+</h3>
+                <p>Kullanılan Yazılım Dili</p>
+            </div>
+            <div class="stat-item">
+                <h3>7/24</h3>
+                <p>Güvenlik & Destek</p>
+            </div>
+            <div class="stat-item">
+                <h3>SEO</h3>
+                <p>Uyumlu Altyapı</p>
+            </div>
+        </div>
+
+        <!-- Uzmanlık Alanları -->
+        <section id="services">
+            <div class="section-header">
+                <h2 class="section-title">Uzmanlık ve Hizmetler</h2>
+                <p class="section-desc">Geniş teknoloji yelpazesi ile ihtiyacınıza özel profesyonel çözümler.</p>
+            </div>
             <div class="grid">
                 
                 <div class="card">
+                    <div class="card-icon">&lt;/&gt;</div>
                     <h3>Ön Yüz (Frontend) Geliştirme</h3>
-                    <p>Mobil uyumlu, yüksek performanslı ve modern kullanıcı arayüzleri.</p>
-                    <div class="skills-tags">
-                        <span class="tag">HTML5</span>
-                        <span class="tag">CSS3</span>
-                        <span class="tag">JavaScript (ES6+)</span>
+                    <p>Mobil öncelikli (Responsive), modern mimariye sahip ve yüksek hızlı dinamik kullanıcı arayüzleri.</p>
+                    <div class="tags">
+                        <span class="tag">HTML5 / CSS3</span>
+                        <span class="tag">JavaScript ES6+</span>
                         <span class="tag">TypeScript</span>
                         <span class="tag">React</span>
                         <span class="tag">Vue.js</span>
                         <span class="tag">Tailwind CSS</span>
-                        <span class="tag">Bootstrap</span>
                     </div>
                 </div>
 
                 <div class="card">
+                    <div class="card-icon">⚡</div>
                     <h3>Arka Yüz (Backend) & Mimari</h3>
-                    <p>Güvenilir, ölçeklenebilir sunucu mantığı ve veri tabanı sistemleri.</p>
-                    <div class="skills-tags">
+                    <p>Güçlü sunucu mantığı, veri tabanı yapılandırması ve yüksek güvenlikli RESTful API geliştirmeleri.</p>
+                    <div class="tags">
                         <span class="tag">Node.js</span>
                         <span class="tag">Python</span>
                         <span class="tag">PHP</span>
@@ -197,58 +431,69 @@
                         <span class="tag">C# / .NET</span>
                         <span class="tag">C / C++</span>
                         <span class="tag">Go</span>
-                        <span class="tag">REST API</span>
                     </div>
                 </div>
 
                 <div class="card">
-                    <h3>Veri Tabanı & Bulut Yönetimi</h3>
-                    <p>Güvenli veri depolama, sorgulama ve sunucu altyapı yönetimi.</p>
-                    <div class="skills-tags">
-                        <span class="tag">MySQL</span>
-                        <span class="tag">PostgreSQL</span>
-                        <span class="tag">MongoDB</span>
-                        <span class="tag">SQLite</span>
-                        <span class="tag">Firebase</span>
-                        <span class="tag">Docker</span>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <h3>Sistem, Ağ & Sistem Yönetimi</h3>
-                    <p>Terminal ortamları, ağ paket analizi ve sunucu konfigürasyonu.</p>
-                    <div class="skills-tags">
+                    <div class="card-icon">🔒</div>
+                    <h3>Sistem, Ağ & Güvenlik</h3>
+                    <p>Linux terminal konfigürasyonları, veri trafiği log analizi ve ağ paket kontrol yapıları.</p>
+                    <div class="tags">
                         <span class="tag">Linux / Bash</span>
-                        <span class="tag">Git & GitHub</span>
                         <span class="tag">Wireshark</span>
-                        <span class="tag">Network Diagnostics</span>
-                        <span class="tag">Security Log Analysis</span>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <h3>UI/UX & Web Tasarım</h3>
-                    <p>Kullanıcı deneyimini ön planda tutan estetik ve işlevsel grafik tasarımlar.</p>
-                    <div class="skills-tags">
-                        <span class="tag">Figma</span>
-                        <span class="tag">Responsive Design</span>
-                        <span class="tag">Web Vitals Optimization</span>
-                        <span class="tag">SEO</span>
+                        <span class="tag">Git & GitHub</span>
+                        <span class="tag">Network Analysis</span>
+                        <span class="tag">MySQL / MongoDB</span>
                     </div>
                 </div>
 
             </div>
         </section>
 
-        <div class="cta-section">
-            <h2 class="section-title" style="margin-bottom: 0.75rem;">Bir Projeniz mi Var?</h2>
-            <p>Web tasarımı, yazılım geliştirme veya sistem çözümleri için benimle iletişime geçebilirsiniz.</p>
-            <a href="mailto:iletisim@efeleak.com" class="btn">İletişime Geç</a>
-        </div>
+        <!-- Çalışma Süreci -->
+        <section id="process">
+            <div class="section-header">
+                <h2 class="section-title">Çalışma Süreci</h2>
+                <p class="section-desc">Fikir aşamasından yayına kadar izlenen adımlar.</p>
+            </div>
+            <div class="process-grid">
+                <div class="process-card">
+                    <span class="process-num">01</span>
+                    <h3>Planlama</h3>
+                    <p>İhtiyaç analizi ve proje mimarisinin kurgulanması.</p>
+                </div>
+                <div class="process-card">
+                    <span class="process-num">02</span>
+                    <h3>Tasarım</h3>
+                    <p>Kullanıcı deneyimi yüksek modern UI/UX tasarımı.</p>
+                </div>
+                <div class="process-card">
+                    <span class="process-num">03</span>
+                    <h3>Geliştirme</h3>
+                    <p>Temiz kod prensipleriyle Frontend ve Backend kodlaması.</p>
+                </div>
+                <div class="process-card">
+                    <span class="process-num">04</span>
+                    <h3>Yayınlama</h3>
+                    <p>Testler, güvenlik kontrolleri ve canlıya alma.</p>
+                </div>
+            </div>
+        </section>
 
+        <!-- İletişim / Çağrı Alanı -->
+        <section id="contact">
+            <div class="cta-box">
+                <h2>Birlikte Harika İşler Çıkaralım</h2>
+                <p>Projenizi veya fikrinizi dijitale taşımak, hızlı ve güvenli bir web sitesine sahip olmak için hemen ulaşın.</p>
+                <a href="mailto:iletisim@efeleak.com" class="btn-primary">E-Posta Gönder</a>
+            </div>
+        </section>
+
+        <!-- Footer -->
         <footer>
-            <p>&copy; 2026 Efe Afşar. Tüm hakları saklıdır.</p>
+            <p>&copy; 2026 Efe Afşar. Tüm hakları saklıdır. efeleak.com</p>
         </footer>
+
     </div>
 
 </body>
