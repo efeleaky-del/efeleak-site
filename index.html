@@ -1,562 +1,229 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="tr" class="dark scroll-smooth">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>EfeMedya ve LeakMedya | Web Tasarım</title>
-
-  <style>
-    :root {
-      --bg: #07070d;
-      --tx: #f4f4fb;
-      --mu: #a3a3bd;
-      --gl: rgba(255, 255, 255, .05);
-      --bd: rgba(255, 255, 255, .1);
-      --a: #8b5cf6;
-      --b: #22d3ee;
-      --c: #f472b6;
-      --star: #fbbf24;
-      --hd: rgba(7, 7, 13, .7);
-      color-scheme: dark;
-    }
-
-    /* Telefon/bilgisayar açık moddaysa açık tema */
-    @media (prefers-color-scheme: light) {
-      :root {
-        --bg: #faf9ff;
-        --tx: #14122b;
-        --mu: #5d5a78;
-        --gl: rgba(255, 255, 255, .75);
-        --bd: rgba(20, 18, 43, .1);
-        --hd: rgba(250, 249, 255, .8);
-        color-scheme: light;
-      }
-    }
-
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; scroll-padding-top: 84px; }
-
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--tx);
-      font: 16px/1.65 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    a { color: inherit; text-decoration: none; }
-
-    .w { max-width: 1120px; margin: 0 auto; padding: 0 22px; position: relative; }
-
-    /* Arka plan ışık efekti */
-    .glow {
-      position: fixed;
-      inset: 0;
-      z-index: -1;
-      pointer-events: none;
-      background:
-        radial-gradient(600px 400px at 15% 10%, rgba(139, 92, 246, .28), transparent 70%),
-        radial-gradient(560px 420px at 90% 30%, rgba(34, 211, 238, .18), transparent 70%),
-        radial-gradient(500px 400px at 50% 100%, rgba(244, 114, 182, .15), transparent 70%);
-    }
-
-    /* ---------- Header ---------- */
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      background: var(--hd);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border-bottom: 1px solid var(--bd);
-    }
-
-    header .w {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 66px;
-    }
-
-    .logo { font-weight: 800; font-size: 20px; letter-spacing: -.03em; }
-
-    .logo span, .g {
-      background: linear-gradient(120deg, var(--a), var(--b));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-
-    nav { display: flex; gap: 26px; font-size: 14px; color: var(--mu); }
-    nav a:hover { color: var(--tx); }
-
-    @media (max-width: 760px) { nav { display: none; } }
-
-    /* ---------- Butonlar ---------- */
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 13px 26px;
-      border-radius: 999px;
-      font-weight: 600;
-      font-size: 15px;
-      border: 1px solid var(--bd);
-      background: var(--gl);
-      color: var(--tx);
-      cursor: pointer;
-      font-family: inherit;
-      transition: transform .2s, box-shadow .2s;
-    }
-
-    .btn:hover { transform: translateY(-2px); }
-
-    .btn.p {
-      background: linear-gradient(120deg, var(--a), var(--b));
-      border: 0;
-      color: #fff;
-      box-shadow: 0 10px 30px -8px rgba(139, 92, 246, .6);
-    }
-
-    .btn.s { padding: 10px 20px; font-size: 14px; }
-
-    /* ---------- Hero ---------- */
-    .hero { padding: 96px 0 70px; text-align: center; }
-
-    .tag {
-      display: inline-flex;
-      gap: 8px;
-      align-items: center;
-      padding: 7px 16px;
-      border-radius: 999px;
-      border: 1px solid var(--bd);
-      background: var(--gl);
-      font-size: 13px;
-      color: var(--mu);
-      margin-bottom: 26px;
-    }
-
-    .tag i {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #34d399;
-      box-shadow: 0 0 0 4px rgba(52, 211, 153, .2);
-    }
-
-    h1 {
-      font-size: clamp(40px, 9vw, 84px);
-      line-height: 1.02;
-      letter-spacing: -.04em;
-      margin: 0 auto 22px;
-      max-width: 900px;
-    }
-
-    .lead {
-      color: var(--mu);
-      font-size: clamp(16px, 2.4vw, 20px);
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
-    .acts {
-      display: flex;
-      gap: 12px;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-top: 34px;
-    }
-
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 14px;
-      margin-top: 64px;
-    }
-
-    .stat {
-      padding: 22px 14px;
-      border-radius: 20px;
-      background: var(--gl);
-      border: 1px solid var(--bd);
-      backdrop-filter: blur(10px);
-    }
-
-    .stat b { display: block; font-size: 36px; letter-spacing: -.03em; line-height: 1.1; }
-    .stat span { font-size: 13px; color: var(--mu); }
-
-    /* ---------- Bölümler ---------- */
-    section { padding: 90px 0; }
-
-    .eb {
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      color: var(--b);
-      margin-bottom: 12px;
-    }
-
-    h2 {
-      font-size: clamp(30px, 5.5vw, 52px);
-      line-height: 1.08;
-      letter-spacing: -.03em;
-      margin: 0 0 14px;
-    }
-
-    .sub { color: var(--mu); max-width: 520px; margin: 0 0 46px; }
-
-    /* ---------- Hizmetler (bento) ---------- */
-    .bento { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; }
-
-    .bc {
-      grid-column: span 2;
-      padding: 28px;
-      border-radius: 24px;
-      background: var(--gl);
-      border: 1px solid var(--bd);
-      backdrop-filter: blur(10px);
-      transition: transform .25s, border-color .25s;
-    }
-
-    .bc:hover { transform: translateY(-4px); border-color: var(--a); }
-    .bc.big { grid-column: span 4; }
-    .bc .e { font-size: 30px; margin-bottom: 14px; display: block; }
-    .bc h3 { margin: 0 0 8px; font-size: 20px; letter-spacing: -.02em; }
-    .bc p { margin: 0; color: var(--mu); font-size: 15px; }
-
-    @media (max-width: 820px) { .bc, .bc.big { grid-column: span 6; } }
-
-    /* ---------- Süreç ---------- */
-    .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
-
-    .step {
-      padding: 30px;
-      border-radius: 24px;
-      border: 1px solid var(--bd);
-      background: var(--gl);
-    }
-
-    .step b {
-      display: block;
-      font-size: 64px;
-      line-height: 1;
-      letter-spacing: -.05em;
-      margin-bottom: 10px;
-      background: linear-gradient(120deg, var(--a), var(--c));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-
-    .step h3 { margin: 0 0 8px; font-size: 20px; }
-    .step p { margin: 0; color: var(--mu); font-size: 15px; }
-
-    /* ---------- Yorumlar ---------- */
-    .score {
-      display: grid;
-      grid-template-columns: auto 1fr;
-      gap: 34px;
-      align-items: center;
-      padding: 34px;
-      border-radius: 28px;
-      border: 1px solid var(--bd);
-      background: var(--gl);
-      backdrop-filter: blur(10px);
-      margin-bottom: 34px;
-    }
-
-    @media (max-width: 700px) { .score { grid-template-columns: 1fr; text-align: center; } }
-
-    .score .n { font-size: 84px; font-weight: 800; letter-spacing: -.05em; line-height: 1; }
-    .st { color: var(--star); letter-spacing: 2px; }
-
-    .bars { display: grid; gap: 11px; }
-
-    .bar {
-      display: grid;
-      grid-template-columns: 34px 1fr 42px;
-      gap: 12px;
-      align-items: center;
-      font-size: 13px;
-      color: var(--mu);
-    }
-
-    .bar i { height: 8px; border-radius: 9px; background: var(--bd); overflow: hidden; display: block; }
-    .bar u { display: block; height: 100%; border-radius: 9px; background: linear-gradient(90deg, var(--star), var(--c)); }
-    .bar span:last-child { text-align: right; }
-
-    /* Kayan yorum şeridi */
-    .mq {
-      overflow: hidden;
-      -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-      mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-    }
-
-    .tr { display: flex; gap: 16px; width: max-content; animation: sc 45s linear infinite; }
-    .mq:hover .tr { animation-play-state: paused; }
-
-    @keyframes sc { to { transform: translateX(-50%); } }
-
-    @media (prefers-reduced-motion: reduce) {
-      .tr { animation: none; }
-      .mq { overflow-x: auto; }
-    }
-
-    .rv {
-      width: 320px;
-      flex: none;
-      padding: 24px;
-      border-radius: 22px;
-      border: 1px solid var(--bd);
-      background: var(--gl);
-      backdrop-filter: blur(10px);
-      display: flex;
-      flex-direction: column;
-    }
-
-    .rv p { margin: 12px 0 18px; font-size: 15px; flex: 1; }
-
-    .who { display: flex; gap: 11px; align-items: center; font-size: 14px; font-weight: 600; }
-    .who small { display: block; font-weight: 400; color: var(--mu); }
-
-    .av {
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      color: #fff;
-      font-weight: 700;
-      background: linear-gradient(135deg, var(--a), var(--c));
-    }
-
-    .note { font-size: 12px; color: var(--mu); text-align: center; margin-top: 22px; }
-
-    /* ---------- SSS ---------- */
-    .faq { max-width: 760px; }
-
-    details {
-      border: 1px solid var(--bd);
-      background: var(--gl);
-      border-radius: 18px;
-      padding: 18px 22px;
-      margin-bottom: 12px;
-    }
-
-    summary { cursor: pointer; font-weight: 600; list-style: none; display: flex; justify-content: space-between; }
-    summary::-webkit-details-marker { display: none; }
-    summary::after { content: "+"; color: var(--b); font-size: 22px; line-height: 1; }
-    details[open] summary::after { content: "−"; }
-    details p { color: var(--mu); margin: 10px 0 0; font-size: 15px; }
-
-    /* ---------- İletişim ---------- */
-    .cta {
-      text-align: center;
-      padding: 64px 24px;
-      border-radius: 32px;
-      border: 1px solid var(--bd);
-      background: linear-gradient(135deg, rgba(139, 92, 246, .22), rgba(34, 211, 238, .14));
-      backdrop-filter: blur(10px);
-    }
-
-    .cta p { color: var(--mu); max-width: 480px; margin: 0 auto; }
-    .cta .acts { margin-top: 28px; }
-
-    /* ---------- Footer ---------- */
-    footer { padding: 34px 0; color: var(--mu); font-size: 13px; border-top: 1px solid var(--bd); }
-    footer .w { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
-
-    /* Kaydırınca beliren bölümler */
-    .rev { opacity: 0; transform: translateY(24px); transition: opacity .7s, transform .7s; }
-    .rev.on { opacity: 1; transform: none; }
-
-    @media (prefers-reduced-motion: reduce) {
-      .rev { opacity: 1; transform: none; transition: none; }
-    }
-  </style>
-</head>
-
-<body>
-  <div class="glow"></div>
-
-  <!-- HEADER -->
-  <header>
-    <div class="w">
-      <a class="logo" href="#">Efe<span>Medya</span></a>
-      <nav>
-        <a href="#hizmetler">Hizmetler</a>
-        <a href="#surec">Süreç</a>
-        <a href="#yorumlar">Yorumlar</a>
-        <a href="#sss">SSS</a>
-      </nav>
-      <a class="btn p s" href="#iletisim">Bize yazın</a>
-    </div>
-  </header>
-
-  <main>
-
-    <!-- HERO -->
-    <div class="w hero">
-      <div class="tag"><i></i> Yeni projeler için müsaitiz</div>
-      <h1>Markanız için <span class="g">akılda kalan</span> web siteleri.</h1>
-      <p class="lead">EfeMedya ve LeakMedya olarak hızlı, mobil uyumlu ve göz alıcı siteler tasarlıyoruz.</p>
-      <div class="acts">
-        <a class="btn p" href="#iletisim">Teklif alın →</a>
-        <a class="btn" href="#yorumlar">Yorumları gör</a>
-      </div>
-      <div class="stats">
-        <div class="stat"><b class="g" data-n="98" data-p="%">0</b><span>Memnuniyet</span></div>
-        <div class="stat"><b class="g" data-n="120" data-s="+">0</b><span>Tamamlanan proje</span></div>
-        <div class="stat"><b class="g" data-n="7" data-s=" gün">0</b><span>Ortalama teslim</span></div>
-        <div class="stat"><b class="g" data-n="92" data-p="%">0</b><span>Tekrar çalışan</span></div>
-      </div>
-    </div>
-
-    <!-- HİZMETLER -->
-    <section id="hizmetler">
-      <div class="w rev">
-        <div class="eb">Hizmetler</div>
-        <h2>Neler yapıyoruz</h2>
-        <p class="sub">İhtiyacınıza uygun, sade ve hızlı çözümler.</p>
-        <div class="bento">
-          <div class="bc big"><span class="e">🖥️</span><h3>Tanıtım ve kurumsal siteler</h3><p>Markanızı ilk bakışta anlatan, telefonda da bilgisayarda da rahat okunan sayfalar.</p></div>
-          <div class="bc"><span class="e">✨</span><h3>Portfolyo siteleri</h3><p>Çalışmalarınızı öne çıkaran, sade ve hızlı siteler.</p></div>
-          <div class="bc"><span class="e">🚀</span><h3>Açılış sayfaları</h3><p>Başvuru, kayıt, ürün ya da etkinlik için tek amaçlı sayfalar.</p></div>
-          <div class="bc big"><span class="e">🔄</span><h3>Mevcut siteyi yenileme</h3><p>Eski sitenizi daha hızlı, daha düzenli ve mobilde sorunsuz hale getiriyoruz.</p></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- SÜREÇ -->
-    <section id="surec">
-      <div class="w rev">
-        <div class="eb">Süreç</div>
-        <h2>Nasıl çalışıyoruz</h2>
-        <p class="sub">Üç adımda fikirden yayına.</p>
-        <div class="steps">
-          <div class="step"><b>01</b><h3>Konuşuruz</h3><p>Ne istediğinizi ve sitenin neye hizmet etmesi gerektiğini dinleriz.</p></div>
-          <div class="step"><b>02</b><h3>Tasarlarız</h3><p>Taslağı size göstermeden yayına çıkmayız, değişiklikleri birlikte işleriz.</p></div>
-          <div class="step"><b>03</b><h3>Yayınlarız</h3><p>Siteyi alan adınızla yayına alırız, gerekirse sonrasında güncelleriz.</p></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- YORUMLAR -->
-    <section id="yorumlar">
-      <div class="w rev">
-        <div class="eb">Müşteri memnuniyeti</div>
-        <h2>Müşterilerimiz ne diyor?</h2>
-        <p class="sub">Birlikte çalıştığımız kişilerin deneyimleri.</p>
-
-        <div class="score">
-          <div style="text-align:center">
-            <div class="n g">4,9</div>
-            <div class="st">★★★★★</div>
-            <small style="color:var(--mu)">120+ değerlendirme</small>
-          </div>
-          <div class="bars">
-            <div class="bar"><span>5 ★</span><i><u style="width:88%"></u></i><span>%88</span></div>
-            <div class="bar"><span>4 ★</span><i><u style="width:10%"></u></i><span>%10</span></div>
-            <div class="bar"><span>3 ★</span><i><u style="width:2%"></u></i><span>%2</span></div>
-            <div class="bar"><span>2 ★</span><i><u style="width:0%"></u></i><span>%0</span></div>
-            <div class="bar"><span>1 ★</span><i><u style="width:0%"></u></i><span>%0</span></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="mq">
-        <div class="tr" id="tr">
-          <div class="rv"><span class="st">★★★★★</span><p>“Siteyi tam istediğim gibi yaptılar. Taslağı görmeden yayına çıkmadılar, bu çok güven verdi.”</p><div class="who"><div class="av">A</div><div>Ahmet K.<small>Kafe sahibi</small></div></div></div>
-          <div class="rv"><span class="st">★★★★★</span><p>“Telefonda inanılmaz hızlı açılıyor. Müşterilerden gelen dönüşler arttı.”</p><div class="who"><div class="av">Z</div><div>Zeynep T.<small>Butik sahibi</small></div></div></div>
-          <div class="rv"><span class="st">★★★★★</span><p>“Portfolyomu sade ve şık yaptılar. WhatsApp’tan her mesajıma hemen cevap verdiler.”</p><div class="who"><div class="av">M</div><div>Mert D.<small>Fotoğrafçı</small></div></div></div>
-          <div class="rv"><span class="st">★★★★★</span><p>“Eski sitemizi yenilediler, şimdi hem düzenli hem hızlı. Kesinlikle tavsiye ederim.”</p><div class="who"><div class="av">S</div><div>Selin A.<small>Klinik yöneticisi</small></div></div></div>
-          <div class="rv"><span class="st">★★★★☆</span><p>“Süreç şeffaftı, değişikliklerimi sorunsuz işlediler. Teslim süresi söz verilen gibiydi.”</p><div class="who"><div class="av">C</div><div>Can Y.<small>Girişimci</small></div></div></div>
-          <div class="rv"><span class="st">★★★★★</span><p>“Açılış sayfamız sayesinde kayıt sayımız ilk haftada ikiye katlandı.”</p><div class="who"><div class="av">E</div><div>Elif B.<small>Etkinlik organizatörü</small></div></div></div>
-        </div>
-      </div>
-
-      <div class="w">
-        <p class="note">Not: Yorumlar ve rakamlar örnektir; yayına almadan önce gerçek verilerle değiştirin.</p>
-      </div>
-    </section>
-
-    <!-- SSS -->
-    <section id="sss">
-      <div class="w rev">
-        <div class="eb">SSS</div>
-        <h2>Sık sorulan sorular</h2>
-        <p class="sub"></p>
-        <div class="faq">
-          <details><summary>Site ne kadar sürede hazır olur?</summary><p>Kapsama göre değişir; basit siteler genelde bir hafta içinde teslim edilir.</p></details>
-          <details><summary>Değişiklik isteyebilir miyim?</summary><p>Evet. Taslağı onayınızdan önce yayına almayız, revizeleri birlikte yaparız.</p></details>
-          <details><summary>Yayına aldıktan sonra destek var mı?</summary><p>İhtiyaç olursa sitenizi güncelleriz.</p></details>
-        </div>
-      </div>
-    </section>
-
-    <!-- İLETİŞİM -->
-    <section id="iletisim" style="padding-top:20px">
-      <div class="w rev">
-        <div class="cta">
-          <h2>Projenizi konuşalım.</h2>
-          <p>Projenizi kısaca anlatın, size en kısa sürede dönüş yapalım.</p>
-          <div class="acts">
-            <a class="btn p" href="https://wa.me/639755049098?text=Merhaba%2C%20web%20sitesi%20yapt%C4%B1rmak%20istiyorum.">WhatsApp’tan yazın</a>
-            <a class="btn" href="https://instagram.com/efefsr">Instagram · @efefsr</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- FOOTER -->
-  <footer>
-    <div class="w">
-      <span>EfeMedya</span>
-      <span>Web tasarım</span>
-    </div>
-  </footer>
-
-  <script>
-    (function () {
-      // Yorum şeridini sonsuz döngü için ikiye katla
-      var tr = document.getElementById('tr');
-      tr.innerHTML += tr.innerHTML;
-
-      // Kaydırınca bölümleri göster
-      var io = new IntersectionObserver(function (entries) {
-        entries.forEach(function (e) {
-          if (e.isIntersecting) {
-            e.target.classList.add('on');
-            io.unobserve(e.target);
-          }
-        });
-      }, { threshold: 0.1 });
-
-      document.querySelectorAll('.rev').forEach(function (el) { io.observe(el); });
-
-      // Sayıları sayarak göster
-      document.querySelectorAll('[data-n]').forEach(function (el) {
-        var target = +el.dataset.n;
-        var prefix = el.dataset.p || '';
-        var suffix = el.dataset.s || '';
-        var start = null;
-
-        function step(ts) {
-          start = start || ts;
-          var k = Math.min((ts - start) / 1400, 1);
-          var eased = 1 - Math.pow(1 - k, 3);
-          el.textContent = prefix + Math.round(target * eased) + suffix;
-          if (k < 1) requestAnimationFrame(step);
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EfeLeak — Ofansif Güvenlik Uzmanı</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        obsidian: '#09090b',
+                        surface: '#111114',
+                        borderSubtle: '#27272a',
+                        accentEmerald: '#10b981',
+                        accentCyan: '#06b6d4',
+                    },
+                    backgroundImage: {
+                        'grid-pattern': "linear-gradient(to right, #18181b 1px, transparent 1px), linear-gradient(to bottom, #18181b 1px, transparent 1px)",
+                    }
+                }
+            }
         }
+    </script>
+</head>
+<body class="bg-[#09090b] text-zinc-100 font-sans antialiased selection:bg-emerald-500/20 selection:text-emerald-300 overflow-x-hidden">
 
-        requestAnimationFrame(step);
-      });
-    })();
-  </script>
+    <!-- Arka Plan İnce Mimari Izgara -->
+    <div class="fixed inset-0 bg-grid-pattern bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none opacity-40 z-0"></div>
 
-</body>
-                                                                                                </html>
+    <!-- Üst Navigasyon Barı -->
+    <header class="sticky top-0 z-50 w-full border-b border-[#27272a] bg-[#09090b]/80 backdrop-blur-md">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+            <!-- Marka Logosu -->
+            <a href="#" class="flex items-center gap-2.5 group">
+                <div class="w-8 h-8 rounded-lg overflow-hidden border border-[#27272a]  group-hover:border-emerald-500/50 transition-colors">
+                    <img src="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2096%2096%22%3E%3Cdefs%3E%3ClinearGradient%20id=%22g%22%20x1=%220%22%20y1=%220%22%20x2=%221%22%20y2=%221%22%3E%3Cstop%20offset=%220%22%20stop-color=%22%23022c22%22/%3E%3Cstop%20offset=%221%22%20stop-color=%22%2310b981%22/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width=%2296%22%20height=%2296%22%20fill=%22url%28%23g%29%22/%3E%3Cpath%20d=%22M48%2014l28%2010v22c0%2018-12%2030-28%2036C32%2076%2020%2064%2020%2046V24z%22%20stroke=%22%23fff%22%20stroke-width=%225%22%20fill=%22none%22%20stroke-linecap=%22round%22%20stroke-linejoin=%22round%22/%3E%3Cpath%20d=%22M36%2048l9%209%2016-18%22%20stroke=%22%23fff%22%20stroke-width=%225%22%20fill=%22none%22%20stroke-linecap=%22round%22%20stroke-linejoin=%22round%22/%3E%3C/svg%3E" alt="EfeLeak" class="w-full h-full object-cover">
+                </div>
+                <div class="font-mono text-sm tracking-tight font-semibold text-white">
+                    EfeLeak<span class="text-emerald-400">.</span>
+                </div>
+            </a>
+
+            <!-- Masaüstü Menü -->
+            <nav class="hidden md:flex items-center gap-8 text-sm text-zinc-400">
+                <a href="#uzmanlik" class="hover:text-white transition-colors">Uzmanlık Alanları</a>
+                <a href="#operasyonlar" class="hover:text-white transition-colors">Operasyonlar & Projeler</a>
+                <a href="#araclar" class="hover:text-white transition-colors">Sistemler</a>
+                <a href="#iletisim" class="hover:text-white transition-colors">İletişim</a>
+            </nav>
+
+            <!-- Sağ Aksiyon & Mobil Menü Butonu -->
+            <div class="flex items-center gap-3">
+                <a href="#iletisim" class="hidden sm:inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-zinc-100 text-zinc-950 text-xs font-medium hover:bg-white transition-all">
+                    <span>Hemen İletişime Geç</span>
+                    <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+                </a>
+                <a href="#iletisim" aria-label="Profil" class="w-9 h-9 rounded-full overflow-hidden border border-[#27272a] bg-black shrink-0"><img src="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2096%2096%22%3E%3Cdefs%3E%3ClinearGradient%20id=%22g%22%20x1=%220%22%20y1=%220%22%20x2=%221%22%20y2=%221%22%3E%3Cstop%20offset=%220%22%20stop-color=%22%23000000%22/%3E%3Cstop%20offset=%221%22%20stop-color=%22%23000000%22/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width=%2296%22%20height=%2296%22%20fill=%22url%28%23g%29%22/%3E%3Ctext%20x=%2248%22%20y=%2262%22%20font-family=%22monospace%22%20font-size=%2244%22%20font-weight=%22700%22%20fill=%22%23fff%22%20text-anchor=%22middle%22%3EE%3C/text%3E%3C/svg%3E" alt="EfeLeak" class="w-full h-full object-cover"></a>
+                <button id="mobile-menu-btn" aria-label="Menüyü Aç" class="md:hidden p-2 rounded-lg border border-[#27272a] text-zinc-400 hover:text-white hover:bg-zinc-900">
+                    <i data-lucide="menu" class="w-5 h-5"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobil Menü Paneli -->
+        <div id="mobile-menu" class="hidden md:hidden border-t border-[#27272a] bg-[#09090b] px-4 py-4 space-y-3">
+            <a href="#uzmanlik" class="block py-2 text-sm text-zinc-400 hover:text-white">Uzmanlık Alanları</a>
+            <a href="#operasyonlar" class="block py-2 text-sm text-zinc-400 hover:text-white">Operasyonlar & Projeler</a>
+            <a href="#araclar" class="block py-2 text-sm text-zinc-400 hover:text-white">Sistemler</a>
+            <a href="#iletisim" class="block py-2 text-sm text-emerald-400 font-medium">İletişim & Danışmanlık</a>
+        </div>
+    </header>
+
+    <main class="relative z-10">
+        <!-- Hero Bölümü -->
+        <section class="max-w-6xl mx-auto px-4 sm:px-6 pt-20 pb-16 md:pt-28 md:pb-24">
+            <div class="max-w-3xl">
+                <!-- Durum Rozeti -->
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-900/90 border border-[#27272a] mb-6">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span class="font-mono text-xs text-zinc-300">Ofansif Güvenlik Uzmanı</span>
+                </div>
+
+                <!-- Ana Başlık -->
+                <h1 class="text-4xl sm:text-5xl md:text-6xl font-semibold tracking-tight text-white leading-[1.12] mb-6">
+                    SİBER GÜVENLİK <span class="text-zinc-400">UZMANI</span>
+                </h1>
+
+                <!-- Vizyon Açıklaması -->
+                <p class="text-base sm:text-lg text-zinc-400 leading-relaxed mb-8 max-w-2xl">
+                    <strong class="text-zinc-200 font-medium">EfeLeak</strong> çatısı altında modern web uygulamaları, API uç noktaları ve ağ altyapılarında derinlemesine sızma testleri gerçekleştiriyor; sistemlerinizi olası siber saldırılara karşı sertleştiriyorum.
+                </p>
+
+                <!-- CTA Butonları -->
+                <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5">
+                    <a href="#iletisim" class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg bg-zinc-900/80 border border-[#27272a] text-zinc-200 text-sm font-medium hover:border-zinc-700 hover:bg-zinc-900 transition-colors">
+                        <span>Güvenlik Danışmanlığı Al</span>
+                        <i data-lucide="chevron-right" class="w-4 h-4 text-zinc-500"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Kurumsal Metrik / Odak Özeti -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-16 pt-8 border-t border-[#27272a]">
+                <div>
+                    <div class="font-mono text-xs text-zinc-500 uppercase tracking-wider mb-1">Odak Alanı 01</div>
+                    <div class="text-sm font-medium text-zinc-200">Sızma Testleri (Pentest)</div>
+                </div>
+                <div>
+                    <div class="font-mono text-xs text-zinc-500 uppercase tracking-wider mb-1">Odak Alanı 02</div>
+                    <div class="text-sm font-medium text-zinc-200">Güvenlik Danışmanlığı</div>
+                </div>
+                <div>
+                    <div class="font-mono text-xs text-zinc-500 uppercase tracking-wider mb-1">Odak Alanı 03</div>
+                    <div class="text-sm font-medium text-zinc-200">Cloudflare & WAF Hardening</div>
+                </div>
+                <div>
+                    <div class="font-mono text-xs text-zinc-500 uppercase tracking-wider mb-1">Odak Alanı 04</div>
+                    <div class="text-sm font-medium text-zinc-200">Altyapı Sıkılaştırma</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Uzmanlık Alanları Bölümü -->
+        <section id="uzmanlik" class="max-w-6xl mx-auto px-4 sm:px-6 py-16 md:py-24 border-t border-[#27272a]">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+                <div>
+                    <span class="font-mono text-xs text-emerald-400 uppercase tracking-widest">01 // Yetkinlikler</span>
+                    <h2 class="text-2xl sm:text-3xl font-semibold text-white mt-2 tracking-tight">Uzmanlık Alanları</h2>
+                </div>
+                <p class="text-sm text-zinc-400 max-w-md">
+                    Saldırgan bakış açısıyla sistemlerinizdeki zafiyetleri önceden tespit ediyor, kurumsal katmanda maksimum güvenlik sağlıyorum.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Kart 1 -->
+                <div class="group p-6 sm:p-8 rounded-xl bg-[#111114] border border-[#27272a] hover:border-zinc-700 transition-all">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="w-12 h-12 rounded-lg overflow-hidden border border-[#27272a] bg-zinc-900"><img src="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2096%2096%22%3E%3Cdefs%3E%3ClinearGradient%20id=%22g%22%20x1=%220%22%20y1=%220%22%20x2=%221%22%20y2=%221%22%3E%3Cstop%20offset=%220%22%20stop-color=%22%23052e22%22/%3E%3Cstop%20offset=%221%22%20stop-color=%22%2310b981%22/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width=%2296%22%20height=%2296%22%20fill=%22url%28%23g%29%22/%3E%3Ccircle%20cx=%2248%22%20cy=%2248%22%20r=%2222%22%20fill=%22none%22%20stroke=%22%23fff%22%20stroke-width=%224%22/%3E%3Ccircle%20cx=%2248%22%20cy=%2248%22%20r=%226%22%20fill=%22%23fff%22/%3E%3Cpath%20d=%22M48%2014v18M48%2064v18M14%2048h18M64%2048h18%22%20stroke=%22%23fff%22%20stroke-width=%224%22/%3E%3C/svg%3E" alt="Hizmet görseli" class="w-full h-full object-cover"></div>
+                        <div class="px-3 py-2 rounded-lg bg-black border border-[#27272a] font-mono text-xs font-bold tracking-[0.2em] text-white">EFELEAK</div>
+                    </div>
+                    <h3 class="text-lg font-semibold text-white mb-2.5">Sızma Testleri (Pentest)</h3>
+                    <p class="text-sm text-zinc-400 leading-relaxed mb-5">
+                        Web uygulamaları, mobil servisler ve kurumsal ağ altyapılarında OWASP Top 10 standartlarına tam uyumlu simüle edilmiş sızma testleri ve detaylı risk raporlaması.
+                    </p>
+                    <div class="flex flex-wrap gap-2 font-mono text-[11px] text-zinc-400">
+                        <span class="px-2.5 py-1 rounded bg-zinc-900 border border-[#27272a]">OWASP Top 10</span>
+                        <span class="px-2.5 py-1 rounded bg-zinc-900 border border-[#27272a]">Burp Suite Pro</span>
+                        <span class="px-2.5 py-1 rounded bg-zinc-900 border border-[#27272a]">API Güvenliği</span>
+                    </div>
+                </div>
+
+                <!-- Kart 2 -->
+                <div class="group p-6 sm:p-8 rounded-xl bg-[#111114] border border-[#27272a] hover:border-zinc-700 transition-all">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="w-12 h-12 rounded-lg overflow-hidden border border-[#27272a] bg-zinc-900"><img src="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2096%2096%22%3E%3Cdefs%3E%3ClinearGradient%20id=%22g%22%20x1=%220%22%20y1=%220%22%20x2=%221%22%20y2=%221%22%3E%3Cstop%20offset=%220%22%20stop-color=%22%23083344%22/%3E%3Cstop%20offset=%221%22%20stop-color=%22%2306b6d4%22/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width=%2296%22%20height=%2296%22%20fill=%22url%28%23g%29%22/%3E%3Cpath%20d=%22M48%2014l28%2010v22c0%2018-12%2030-28%2036C32%2076%2020%2064%2020%2046V24z%22%20fill=%22none%22%20stroke=%22%23fff%22%20stroke-width=%224%22/%3E%3Cpath%20d=%22M48%2034v18M48%2060v2%22%20stroke=%22%23fff%22%20stroke-width=%225%22%20stroke-linecap=%22round%22/%3E%3C/svg%3E" alt="Hizmet görseli" class="w-full h-full object-cover"></div>
+                        <div class="px-3 py-2 rounded-lg bg-black border border-[#27272a] font-mono text-xs font-bold tracking-[0.2em] text-white">EFELEAK</div>
+                    </div>
+                    <h3 class="text-lg font-semibold text-white mb-2.5">Güvenlik Danışmanlığı</h3>
+                    <p class="text-sm text-zinc-400 leading-relaxed mb-5">
+                        Mevcut altyapınızın güvenlik durumunu analiz eder, risklerinizi önceliklendirir ve size özel, uygulanabilir bir güvenlik yol haritası hazırlarım.
+                    </p>
+                    <div class="flex flex-wrap gap-2 font-mono text-[11px] text-zinc-400">
+                        <span class="px-2.5 py-1 rounded bg-zinc-900 border border-[#27272a]">Risk Analizi</span>
+                        <span class="px-2.5 py-1 rounded bg-zinc-900 border border-[#27272a]">Güvenlik Denetimi</span>
+                        <span class="px-2.5 py-1 rounded bg-zinc-900 border border-[#27272a]">Yol Haritası</span>
+                    </div>
+                </div>
+
+                <!-- Kart 3 -->
+                <div class="group p-6 sm:p-8 rounded-xl bg-[#111114] border border-[#27272a] hover:border-zinc-700 transition-all">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="w-12 h-12 rounded-lg overflow-hidden border border-[#27272a] bg-zinc-900"><img src="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2096%2096%22%3E%3Cdefs%3E%3ClinearGradient%20id=%22g%22%20x1=%220%22%20y1=%220%22%20x2=%221%22%20y2=%221%22%3E%3Cstop%20offset=%220%22%20stop-color=%22%2318181b%22/%3E%3Cstop%20offset=%221%22%20stop-color=%22%2352525b%22/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width=%2296%22%20height=%2296%22%20fill=%22url%28%23g%29%22/%3E%3Cpath%20d=%22M14%2062a16%2016%200%200%201%204-31%2022%2022%200%200%201%2042-4%2018%2018%200%200%201%2018%2035z%22%20fill=%22none%22%20stroke=%22%23fff%22%20stroke-width=%224%22/%3E%3Cpath%20d=%22M48%2040v22M38%2052l10-12%2010%2012%22%20stroke=%22%23fff%22%20stroke-width=%224%22%20fill=%22none%22/%3E%3C/svg%3E" alt="Hizmet görseli" class="w-full h-full object-cover"></div>
+                        <div class="px-3 py-2 rounded-lg bg-black border border-[#27272a] font-mono text-xs font-bold tracking-[0.2em] text-white">EFELEAK</div>
+                    </div>
+                    <h3 class="text-lg font-semibold text-white mb-2.5">Cloudflare WAF & Edge Sıkılaştırma</h3>
+                    <p class="text-sm text-zinc-400 leading-relaxed mb-5">
+                        DDoS koruma, özel WAF kural setleri, Zero Trust mimarisi ve HTTP güvenlik başlıklarının (HSTS, CSP) optimizasyonu.
+                    </p>
+                    <div class="flex flex-wrap gap-2 font-mono text-[11px] text-zinc-400">
+                        <span class="px-2.5 py-1 rounded bg-zinc-900 border border-[#27272a]">Cloudflare WAF</span>
+                        <span class="px-2.5 py-1 rounded bg-zinc-900 border border-[#27272a]">DDoS Mitigation</span>
+                        <span class="px-2.5 py-1 rounded bg-zinc-900 border border-[#27272a]">Zero Trust</span>
+                    </div>
+                </div>
+
+                <!-- Kart 4 -->
+                <div class="group p-6 sm:p-8 rounded-xl bg-[#111114] border border-[#27272a] hover:border-zinc-700 transition-all">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="w-12 h-12 rounded-lg overflow-hidden border border-[#27272a] bg-zinc-900"><img src="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2096%2096%22%3E%3Cdefs%3E%3ClinearGradient%20id=%22g%22%20x1=%220%22%20y1=%220%22%20x2=%221%22%20y2=%221%22%3E%3Cstop%20offset=%220%22%20stop-color=%22%23022c22%22/%3E%3Cstop%20offset=%221%22%20stop-color=%22%2334d399%22/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width=%2296%22%20height=%2296%22%20fill=%22url%28%23g%29%22/%3E%3Crect%20x=%2218%22%20y=%2220%22%20width=%2260%22%20height=%2222%22%20rx=%224%22%20fill=%22none%22%20stroke=%22%23fff%22%20stroke-width=%224%22/%3E%3Crect%20x=%2218%22%20y=%2254%22%20width=%2260%22%20height=%2222%22%20rx=%224%22%20fill=%22none%22%20stroke=%22%23fff%22%20stroke-width=%224%22/%3E%3Ccircle%20cx=%2230%22%20cy=%2231%22%20r=%223%22%20fill=%22%23fff%22/%3E%3Ccircle%20cx=%2230%22%20cy=%2265%22%20r=%223%22%20fill=%22%23fff%22/%3E%3C/svg%3E" alt="Hizmet görseli" class="w-full h-full object-cover"></div>
+                        <div class="px-3 py-2 rounded-lg bg-black border border-[#27272a] font-mono text-xs font-bold tracking-[0.2em] text-white">EFELEAK</div>
+                    </div>
+                    <h3 class="text-lg font-semibold text-white mb-2.5">Linux Altyapı & Sunucu Güvenliği</h3>
+                    <p class="text-sm text-zinc-400 leading-relaxed mb-5">
+                        Linux sunucu sıkılaştırma, SSH anahtar doğrulama politikaları, güvenlik duvarı (UFW/iptables) yapılandırmaları ve log izleme sistemleri.
+                    </p>
+                    <div class="flex flex-wrap gap-2 font-mono text-[11px] text-zinc-400">
+                        <span class="px-2.5 py-1 rounded bg-zinc-900 border border-[#27272a]">Linux Hardening</span>
+                        <span class="px-2.5 py-1 rounded bg-zinc-900 border border-[#27272a]">SSH Security</span>
+                        <span class="px-2.5 py-1 rounded bg-zinc-900 border border-[#27272a]">Firewall</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Neden Biz Bölümü -->
+        <section id="neden-biz" class="max-w-6xl mx-auto px-4 sm:px-6 py-16 md:py-24 border-t border-[#27272a]">
+            <div class="mb-12">
+                <span class="font-mono text-xs text-cyan-400 uppercase tracking-widest">02 // Avantajlar</span>
+                <h2 class="text-2xl sm:text-3xl font-semibold text-white mt-2 tracking-tight">Neden Biz?</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="p-6 rounded-xl bg-[#111114] border border-[#27272a] hover:border-zinc-700 transition-all">
+                    <div class="w-12 h-12 rounded-lg overflow-hidden border border-[#27272a] bg-zinc-900 mb-5"><img src="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2096%2096%22%3E%3Cdefs%3E%3ClinearGradient%20id=%22g%22%20x1=%220%22%20y1=%220%
